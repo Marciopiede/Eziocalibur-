@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Monete - Master</title>
+    <style>
+        body { font-family: Garamond, serif; background-color: #1a1a1a; color: #d4af37; text-align: center; }
+        .container { padding: 20px; margin-top: 50px; }
+        button { background-color: #4b382f; color: #d4af37; border: 2px solid #d4af37; padding: 10px 20px; cursor: pointer; font-size: 18px; }
+        button:hover { background-color: #d4af37; color: #4b382f; }
+        input, select { padding: 10px; background-color: #4b382f; color: #d4af37; margin-top: 10px; border: 2px solid #d4af37; }
+    </style>
+</head>
+<body>
+    <h1>Gestione Monete D&D - Master</h1>
+    
+    <div class="container" id="richieste">
+        <h2>Richieste di Transazione</h2>
+
+        <div id="richiestaMarco"></div>
+        <div id="richiestaMattia"></div>
+        <div id="richiestaStefano"></div>
+        <div id="richiestaMelania"></div>
+    </div>
+
+    <script>
+        function aggiornaRichiesta(giocatore) {
+            const richiesta = JSON.parse(localStorage.getItem(`richiesta${giocatore}`));
+
+            if (richiesta) {
+                const divRichiesta = document.getElementById(`richiesta${giocatore}`);
+                divRichiesta.innerHTML = `
+                    <p>${richiesta.giocatore} richiede ${richiesta.importo} di ${richiesta.tipoMoneta}</p>
+                    <button onclick="approvaRichiesta('${giocatore}')">Approva</button>
+                    <button onclick="rifiutaRichiesta('${giocatore}')">Rifiuta</button>
+                `;
+            }
+        }
+
+        function approvaRichiesta(giocatore) {
+            const richiesta = JSON.parse(localStorage.getItem(`richiesta${giocatore}`));
+            if (richiesta) {
+                const tipoMoneta = richiesta.tipoMoneta;
+                const importo = richiesta.importo;
+
+                // Aggiornare le monete nel localStorage
+                const saldoPrecedente = parseInt(localStorage.getItem(`${tipoMoneta}Giocatore${giocatore}`)) || 0;
+                const nuovoSaldo = saldoPrecedente + importo;
+                localStorage.setItem(`${tipoMoneta}Giocatore${giocatore}`, nuovoSaldo);
+
+                // Notifica al giocatore
+                alert(`Transazione di ${importo} ${tipoMoneta} per ${giocatore} approvata!`);
+                localStorage.removeItem(`richiesta${giocatore}`);
+                aggiornaRichiesta(giocatore);
+            }
+        }
+
+        function rifiutaRichiesta(giocatore) {
+            alert(`Transazione di ${giocatore} rifiutata.`);
+            localStorage.removeItem(`richiesta${giocatore}`);
+            aggiornaRichiesta(giocatore);
+        }
+
+        // Funzione per aggiornare le richieste in tempo reale
+        function aggiornaRichieste() {
+            ['Marco', 'Mattia', 'Stefano', 'Melania'].forEach(giocatore => {
+                aggiornaRichiesta(giocatore);
+            });
+        }
+
+        // Controlla le richieste ogni secondo
+        setInterval(aggiornaRichieste, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Monete - Giocatore</title>
+    <style>
+        body { font-family: Garamond, serif; background-color: #1a1a1a; color: #d4af37; text-align: center; }
+        .container { padding: 20px; margin-top: 50px; }
+        button { background-color: #4b382f; color: #d4af37; border: 2px solid #d4af37; padding: 10px 20px; cursor: pointer; font-size: 18px; }
+        button:hover { background-color: #d4af37; color: #4b382f; }
+        input, select { padding: 10px; background-color: #4b382f; color: #d4af37; margin-top: 10px; border: 2px solid #d4af37; }
+    </style>
+</head>
+<body>
+    <h1>Gestione Monete D&D - Giocatore</h1>
+    
+    <div class="container" id="giocatori">
+        <h2>Giocatore: Marco</h2>
+        <p>Monete di rame: <span id="rameGiocatoreMarco">100</span></p>
+        <p>Monete di argento: <span id="argentoGiocatoreMarco">50</span></p>
+        <p>Monete di oro: <span id="oroGiocatoreMarco">10</span></p>
+        <p>Monete di platino: <span id="platinoGiocatoreMarco">1</span></p>
+
+        <label for="importoGiocatoreMarco">Importo:</label>
+        <input type="number" id="importoGiocatoreMarco" value="0">
+        <label for="tipoMonetaGiocatoreMarco">Tipo di moneta:</label>
+        <select id="tipoMonetaGiocatoreMarco">
+            <option value="rame">Rame</option>
+            <option value="argento">Argento</option>
+            <option value="oro">Oro</option>
+            <option value="platino">Platino</option>
+        </select>
+        <button id="richiestaGiocatoreMarco">Richiedi Transazione</button>
+
+        <hr>
+
+        <h2>Giocatore: Mattia</h2>
+        <p>Monete di rame: <span id="rameGiocatoreMattia">100</span></p>
+        <p>Monete di argento: <span id="argentoGiocatoreMattia">50</span></p>
+        <p>Monete di oro: <span id="oroGiocatoreMattia">10</span></p>
+        <p>Monete di platino: <span id="platinoGiocatoreMattia">1</span></p>
+
+        <label for="importoGiocatoreMattia">Importo:</label>
+        <input type="number" id="importoGiocatoreMattia" value="0">
+        <label for="tipoMonetaGiocatoreMattia">Tipo di moneta:</label>
+        <select id="tipoMonetaGiocatoreMattia">
+            <option value="rame">Rame</option>
+            <option value="argento">Argento</option>
+            <option value="oro">Oro</option>
+            <option value="platino">Platino</option>
+        </select>
+        <button id="richiestaGiocatoreMattia">Richiedi Transazione</button>
+
+        <hr>
+
+        <h2>Giocatore: Stefano</h2>
+        <p>Monete di rame: <span id="rameGiocatoreStefano">100</span></p>
+        <p>Monete di argento: <span id="argentoGiocatoreStefano">50</span></p>
+        <p>Monete di oro: <span id="oroGiocatoreStefano">10</span></p>
+        <p>Monete di platino: <span id="platinoGiocatoreStefano">1</span></p>
+
+        <label for="importoGiocatoreStefano">Importo:</label>
+        <input type="number" id="importoGiocatoreStefano" value="0">
+        <label for="tipoMonetaGiocatoreStefano">Tipo di moneta:</label>
+        <select id="tipoMonetaGiocatoreStefano">
+            <option value="rame">Rame</option>
+            <option value="argento">Argento</option>
+            <option value="oro">Oro</option>
+            <option value="platino">Platino</option>
+        </select>
+        <button id="richiestaGiocatoreStefano">Richiedi Transazione</button>
+
+        <hr>
+
+        <h2>Giocatore: Melania</h2>
+        <p>Monete di rame: <span id="rameGiocatoreMelania">100</span></p>
+        <p>Monete di argento: <span id="argentoGiocatoreMelania">50</span></p>
+        <p>Monete di oro: <span id="oroGiocatoreMelania">10</span></p>
+        <p>Monete di platino: <span id="platinoGiocatoreMelania">1</span></p>
+
+        <label for="importoGiocatoreMelania">Importo:</label>
+        <input type="number" id="importoGiocatoreMelania" value="0">
+        <label for="tipoMonetaGiocatoreMelania">Tipo di moneta:</label>
+        <select id="tipoMonetaGiocatoreMelania">
+            <option value="rame">Rame</option>
+            <option value="argento">Argento</option>
+            <option value="oro">Oro</option>
+            <option value="platino">Platino</option>
+        </select>
+        <button id="richiestaGiocatoreMelania">Richiedi Transazione</button>
+    </div>
+
+    <script>
+        function inviaRichiesta(giocatore) {
+            const importo = parseInt(document.getElementById(`importoGiocatore${giocatore}`).value);
+            const tipoMoneta = document.getElementById(`tipoMonetaGiocatore${giocatore}`).value;
+
+            let richiesta = {
+                giocatore: giocatore,
+                importo: importo,
+                tipoMoneta: tipoMoneta,
+                approvato: false
+            };
+
+            // Salva la richiesta nel localStorage
+            localStorage.setItem(`richiesta${giocatore}`, JSON.stringify(richiesta));
+            alert(`Richiesta inviata al master per ${giocatore}.`);
+        }
+
+        // Aggiungere eventi di click per i pulsanti di richiesta
+        ['Marco', 'Mattia', 'Stefano', 'Melania'].forEach(giocatore => {
+            document.getElementById(`richiestaGiocatore${giocatore}`).addEventListener('click', function() {
+                inviaRichiesta(giocatore);
+            });
+        });
+
+        // Funzione per aggiornare i valori delle monete
+        function aggiornaMonete(giocatore, tipoMoneta, nuovoValore) {
+            document.getElementById(tipoMoneta + 'Giocatore' + giocatore).textContent = nuovoValore;
+        }
+
+        // Funzione per recuperare il saldo delle monete da localStorage
+        function recuperaMonete(giocatore) {
+            ['rame', 'argento', 'oro', 'platino'].forEach(tipo => {
+                let monete = parseInt(localStorage.getItem(`${tipo}Giocatore${giocatore}`)) || 0;
+                document.getElementById(`${tipo}Giocatore${giocatore}`).textContent = monete;
+            });
+        }
+
+        // Aggiornare i saldi in tempo reale
+        setInterval(() => {
+            ['Marco', 'Mattia', 'Stefano', 'Melania'].forEach(giocatore => {
+                recuperaMonete(giocatore);
+            });
+        }, 1000); // Ogni secondo
+    </script>
+</body>
+</html>
